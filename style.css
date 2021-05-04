@@ -30,7 +30,7 @@ body {
 }
 
 .dice {
-    justify-content: space-around;
+    /* justify-content: space-around; */
     padding: 1.5em 1em;
     display: none;
 }
@@ -47,4 +47,29 @@ body {
 
 h3 {
     font-size: 2rem;
+}
+
+/* edit as necessary */
+
+#modal {
+    background-color: coral;
+    color: white;
+    padding: 20px;
+    height: 200px;
+    margin: 0 auto;
+    max-width: 600px;
+    position: relative;
+    top: 30%;
+}
+
+#overlay {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
 }
