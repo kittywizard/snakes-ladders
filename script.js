@@ -1,10 +1,14 @@
-//create a grid 1-55
-
+//display variables
 const grid = document.getElementById('grid');
 const scoreBoard = document.querySelector('.dice');
+const overlay = document.querySelector('.overlay');
 const p1Score = document.getElementById('p1-score');
 const p2Score = document.getElementById('p2-score');
 const btnDisplay = document.querySelector('.player-display');
+
+//two variables for the player locations
+let p1 = 0,
+    p2 = 0;
 
 let arr = [];
 const gridLength = 55;
@@ -36,23 +40,26 @@ function createGrid() {
         grid.appendChild(square);
     });
 
+    //add the players to the starting 'square'
+    arr[0].classList.add('player-1', 'player-2');
+
     //display which player goes first
     let flip = Math.floor((Math.random() * 2) + 1); //flip a coin, essentially
     if(flip === 1){
-        //player 1 goes first, currentPlayer stays the same
-        btnDisplay.textContent = `Player 1`;
+        playerDetermine();
     } else {
-        //player 2 goes first, currentPlayer becomes false
-        btnDisplay.textContent = `Player 2`;
         currentPlayer = false;
+        playerDetermine();
     }
 }
 
 function playerDetermine() {
     if(currentPlayer) {
         btnDisplay.textContent = `Player 1`;
+        currentPlayer = false;
     } else {
         btnDisplay.textContent = `Player 2`;
+        currentPlayer = true;
     }
 }
 
@@ -61,12 +68,18 @@ function playerDetermine() {
 
 function rollDice() {
     //generate a random number between 1 and 6
-    let dice = Math.floor((Math.random() * max) + min);
+    let dice = (Math.floor((Math.random() * max) + min)); 
+    rollBtn.style.display= 'none';
 
     //create a modal
     const modal = document.createElement('div');
     modal.classList.add('modal');
-    modal.textContent = `${dice}`;
+    modal.textContent = `Player rolled a ${dice}!`; //add in which player
+
+    const btn = document.createElement('button');
+    btn.textContent = 'Yay!';
+    btn.classList.add('btn');
+    modal.appendChild(btn);
     scoreBoard.appendChild(modal);
 
     //start the 'move' function
@@ -74,11 +87,20 @@ function rollDice() {
 }
 
 function movePiece(player, num) {
-    //determine which player is up (pass in var??)
-    //get dice roll result
-    //move piece x of spaces
-    //check to see if player has landed on a special snake or ladder piece
-    //pop up modal to let them know what happened
 
-    console.log(`${player} and ${num}`)
+    //clean this up
+        //check to see if player has landed on a special snake or ladder piece
+    if(player) {
+        //P1
+        arr[p1].classList.remove('player-1');
+        arr[p1+num].classList.add('player-1');
+        p1 += num;
+    } else {
+        //P2
+        arr[p2].classList.remove('player-2');
+        arr[p2+num].classList.add('player-2');
+        p2 += num;
+    }
+    playerDetermine();
+    rollBtn.style.display= 'inline-block';
 }
